@@ -43,6 +43,10 @@ Este diagrama refleja de forma resumida qué acciones se pueden llevar a cabo en
 
 Ahora que tenemos claro todo lo que debe hacer la versión 1.0, nuestra misión ahora es planificar el trabajo que se nos viene encima...
 
+
+
+
+
 # Hist3a - Diseño de la interfaz. Bocetos
 Una vez tenemos claro las funcionalidades que debe realizar nuestra aplicación, comenzamos con el diseño de la interfaz.
 
