@@ -5,7 +5,7 @@ export default {
       <h1 class="mt-3 mb-5">Detalle del proyecto</h1>
       <div class="row">
           <div class="col-md-4">
-              <img class="w-100" src="images/tresraya.jpeg" alt="">
+              <img class="w-100" src="images/juego.jpg" alt="">
           </div>
           <div class="col-md-7">
               <p><strong>Nombre: </strong>TETRIS</p>

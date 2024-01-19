@@ -45,7 +45,7 @@ export default {
                 </thead>
                 <tbody class="table-group-divider">
                   <tr>
-                    <td scope="row"><img src="images/tres.jpeg" width="60" height="60" alt=""></td>
+                    <td scope="row"><img src="images/juego.jpg" width="60" height="60" alt=""></td>
                     <td>Proyecto ejemplo 1</td>
                     <td>Ejemplo de web para centro fp</td>
                     <td><a href="https://www.fpllefia.com/">https://www.fpllefia.com/</a></td>
@@ -57,7 +57,7 @@ export default {
                     <td><i class="fa-regular fa-trash-can border border-danger p-2 fs-5 text-danger"></i></td>
                   </tr>
                   <tr>
-                    <td scope="row"><img src="images/tres.jpeg" width="60" height="60" alt=""></td>
+                    <td scope="row"><img src="images/juego.jpg" width="60" height="60" alt=""></td>
                     <td>Proyecto ejemplo 1</td>
                     <td>Ejemplo de web para centro fp</td>
                     <td><a href="https://www.fpllefia.com/">https://www.fpllefia.com/</a></td>
@@ -69,7 +69,7 @@ export default {
                     <td><i class="fa-regular fa-trash-can border border-danger p-2 fs-5 text-danger"></i></td>
                   </tr>
                   <tr>
-                    <td scope="row"><img src="images/tres.jpeg" width="60" height="60" alt=""></td>
+                    <td scope="row"><img src="images/juego.jpg" width="60" height="60" alt=""></td>
                     <td>Proyecto ejemplo 1</td>
                     <td>Ejemplo de web para centro fp</td>
                     <td><a href="https://www.fpllefia.com/">https://www.fpllefia.com/</a></td>

@@ -8,7 +8,7 @@ export default {
           </div>
           <div class="row">
               <div class="col-md-6 mb-4 mb-md-0">
-                  <img class="w-100" src="images/tresraya.jpeg" alt="">
+                  <img class="w-100" src="images/juego.jpg" alt="">
               </div>
               <div class="col-md-6">
                   <form id="formRegistro">

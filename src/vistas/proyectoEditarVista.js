@@ -8,7 +8,7 @@ export default {
           </div>
           <div class="row">
               <div class="col-md-4 mb-3 mb-md-0">
-                  <img class="w-100" src="images/tresraya.jpeg" alt="">
+                  <img class="w-100" src="images/juego.jpg" alt="">
                   <div class="mt-3">
                       <label for="InputNombre1" class="form-label"><strong>URL imagen:</strong></label>
                       <input type="text" class="form-control" id="repositorio" value="http://enlaceImagen.com">

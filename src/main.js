@@ -6,11 +6,11 @@ import 'bootstrap'
 
 // Import our custom CSS
 import './scss/styles.scss'
-const componente = await import('./vistas/registrovista.js')
+
 
 // Importamos la vista por defecto (que será home)
 async function cargarVista () {
-  //const componente = await import('./vistas/homeVista')
+  const componente = await import('./vistas/homeVista')
   const vista = componente.default
   // Inyectamos la vista home
   document.querySelector('main').innerHTML = vista.template
