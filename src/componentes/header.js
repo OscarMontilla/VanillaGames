@@ -54,17 +54,33 @@ export const header = {
     `,
     script: ()=>{
       console.log('Header cargado')
-    // Simulamos el inicio de sesión de un usuario
-    const usuario = {
-      email: 'manolito@email.com',
-      rol: 'alumno'
-    }
-    ls.setUsuario(usuario)
-    console.log('usuario guardado')
+    
+    const rolUsuario = ls.getUsuario().rol
 
-    // Leemos el usuario del localstorage
-    const usuarioLogueado = ls.getUsuario()
-    console.log('usuario del localstorage: ', usuarioLogueado)
+    switch (rolUsuario) {
+      case 'registrado':
+        // menú rol
+        document.querySelector('#menuRol').innerHTML = menuRol.templateRegistrado
+        // menú usuario
+        document.querySelector('#menuUsuario').innerHTML = menuUsuario.templateRegistrado
+        break
+      case 'desarrollador':
+        // menú rol
+        document.querySelector('#menuRol').innerHTML = menuRol.templateDesarrollador
+        // menú usuario
+        document.querySelector('#menuUsuario').innerHTML = menuUsuario.templateDesarrollador
+        break
+      case 'admin':
+        // menú rol
+        document.querySelector('#menuRol').innerHTML = menuRol.templateAdmin
+        // menú usuario
+        document.querySelector('#menuUsuario').innerHTML = menuUsuario.templateAdmin
+        break
+      default : // Para usuarios anónimos
+        // menú rol
+        document.querySelector('#menuRol').innerHTML = menuRol.templateAnonimo
+        // menú usuario: No tiene
+        break
     }
-  
+  }
 }
