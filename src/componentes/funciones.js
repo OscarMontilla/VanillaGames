@@ -2,11 +2,19 @@
 export const ls = {
     // Captuar datos de localStorage
     getUsuario: () => {
-      // Leer en localStorage
+      // Definimos usuario anónimo por si no hay datos en localstorage
+      let usuario = {
+        email: 'anónimo',
+        rol: 'no logueado',
+        avatar: ''
+      }
+      // Capturamos datos de localstorage
       const usuarioJSON = localStorage.getItem('usuarioVanilla')
-      // Convertir a objeto
-      const usuario = JSON.parse(usuarioJSON)
-      // Devolvemos objeto
+      // Si hay un usuario logueado actualizamos usuario, sino devolvemos usuario anónimo
+      if (usuarioJSON) {
+        // Parseamos datos de localstorage
+        usuario = JSON.parse(usuarioJSON)
+      }
       return usuario
     },
     setUsuario: (usuario) => {
@@ -16,3 +24,5 @@ export const ls = {
       localStorage.setItem('usuarioVanilla', usuarioJSON)
     }
   }
+  
+  
