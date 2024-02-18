@@ -1,6 +1,7 @@
 // importamos la función ls del archivo funciones
 import { ls } from '../componentes/funciones'
 import { editarPerfil } from './editPerfil'
+import { menuRol, menuUsuario } from './menus'
 
 export const header = {
     template: //html
@@ -57,7 +58,7 @@ export const header = {
     script: ()=>{
       console.log('Header cargado')
     // Simulamos el inicio de sesión de un usuario
-    // ls.setUsuario({ email: 'chafardera@gmial.com', rol: 'registrado' })
+     ls.setUsuario({ email: 'chafardera@gmial.com', rol: 'desarrollador' })
 
     // Cargamos la ventana modal para editar perfil
     document.querySelector('#modal').innerHTML = editarPerfil.template
