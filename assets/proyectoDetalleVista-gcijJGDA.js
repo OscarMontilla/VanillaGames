@@ -1,4 +1,4 @@
-import { p as proyectos } from "./datosPrueba-iQ-B72zm.js";
+import { p as proyectos } from "./datosPrueba-Jl9Tubsq.js";
 const proyectoDetalleVista = {
   template: (
     // html

@@ -11414,14 +11414,16 @@ class User {
       return new User(user.id, user.email);
   }
   // Método para actualizar datos del usuario (no está claro cómo se utiliza actualmente)
-  async update(nuevosDatos) {
+  static async update(nuevosDatos) {
     const { data, error } = await supabase.auth.updateUser({
-      email: this.email,
-      password: this.password
+      email: nuevosDatos.email
+      // password: nuevosDatos.password,
+      // data: { hello: 'world' }
     });
     if (error) {
       throw new Error(error.message);
     }
+    return true;
   }
 }
 const ls = {
@@ -11568,155 +11570,173 @@ const menuRol = {
   templateAnonimo: (
     // html
     `
-    <ul class="navbar-nav ms-auto me-2 mb-2 mb-lg-0">
-        <li class="nav-item">
-        <a class="ms-2 btn btn-success router-link" href="#/login" >
-            Iniciar sesión
-            <i class="bi bi-box-arrow-in-right"></i>
-        </a>
-        </li>
-        <li class="nav-item">
-        <a class="ms-2 btn btn-outline-light router-link" href="#/registro">
-            Regístrate
-            <i class="bi bi-box-arrow-in-right"></i>
-        </a>
-        </li>
-    </ul>
-    `
+  <ul class="navbar-nav ms-auto me-2 mb-2 mb-lg-0">
+    <li class="nav-item">
+      <a class="ms-2 btn btn-success router-link" href="#/login" >
+        Iniciar sesión
+        <i class="bi bi-box-arrow-in-right"></i>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="ms-2 btn btn-outline-light router-link" href="#/registro">
+        Regístrate
+        <i class="bi bi-box-arrow-in-right"></i>
+      </a>
+    </li>
+    
+  </ul>
+  `
   ),
   templateRegistrado: (
     // html
     `
-    <ul class="navbar-nav ms-auto me-2 mb-2 mb-lg-0">
-        <li class="nav-item">
-        <a class="nav-link active router-link" aria-current="page" href="#/proyectos">PROYECTOS</a>
-        </li>
-        
-    </ul>
-    `
+  <ul class="navbar-nav ms-auto me-2 mb-2 mb-lg-0">
+    <li class="nav-item">
+      <a class="nav-link active router-link" aria-current="page" href="#/proyectos">PROYECTOS</a>
+    </li>
+  </ul>
+  `
   ),
   templateDesarrollador: (
     // html
     `
-    <ul class="navbar-nav ms-auto me-2 mb-2 mb-lg-0">
-        <li class="nav-item">
-        <a class="nav-link active router-link" aria-current="page" href="#/proyectos">PROYECTOS</a>
-        </li>
-        
-    </ul>
-    `
+  <ul class="navbar-nav ms-auto me-2 mb-2 mb-lg-0">
+    <li class="nav-item">
+      <a class="nav-link active router-link" aria-current="page" href="#/proyectos">PROYECTOS</a>
+    </li>
+  </ul>
+  `
   ),
   templateAdmin: (
     // html
     `
-    <ul class="navbar-nav ms-auto me-2 mb-2 mb-lg-0">
-        <li class="nav-item">
-        <a class="nav-link active router-link" aria-current="page" href="#/proyectos">PROYECTOS</a>
-        </li>
-        <!-- panel admin -->
-    </ul>
-    `
+  <ul class="navbar-nav ms-auto me-2 mb-2 mb-lg-0">
+    <li class="nav-item">
+      <a class="nav-link active router-link" aria-current="page" href="#/proyectos">PROYECTOS</a>
+    </li>
+    <li>
+      <a class="nav-link active router-link" aria-current="page" href="#/admin">Panel ADMIN</a>
+    </li>
+  </ul>
+  `
   )
 };
 const menuUsuario = {
   templateRegistrado: (
     // html
     `
-    <ul class="navbar-nav ms-auto me-2 mb-2 mb-lg-0">
-      <li class="nav-item dropdown">
-        <a
-          class="nav-link dropdown-toggle"
-          href="#"
-          role="button"
-          data-bs-toggle="dropdown"
-          aria-expanded="false"
-        >
-          <img src="images/usuario.png" alt="" width="25" />
-        </a>
-        <ul class="dropdown-menu me-0" style="left: -100px; width: 100px">
-          <li class="text-light text-end p-2 small">
-            ${ls.getUsuario().email}
-          </li>
-          <li class="text-light text-end pe-2 small fst-italic">
-            ${ls.getUsuario().rol}
-          </li>
-          <li><hr class="dropdown-divider" /></li>
-          <li>
-            <a 
-                class="dropdown-item" 
-                href="#"
-                data-bs-toggle="modal"
-                data-bs-target="#modalEditarPerfil"
-                >
-                Mi perfil
-            </a>
-          </li>
-          <li><hr class="dropdown-divider" /></li>
-          <li><a class="dropdown-item cerrarSesion" href="#">Cerrar sesión</a></li>
-        </ul>
-      </li>
-    </ul>
-    `
+  <ul class="navbar-nav ms-auto me-2 mb-2 mb-lg-0">
+    <li class="nav-item dropdown">
+      <a
+        class="nav-link dropdown-toggle"
+        href="#"
+        role="button"
+        data-bs-toggle="dropdown"
+        aria-expanded="false"
+      >
+        <img id="avatarMenu" src="images/avatar.svg" alt="" width="25" />
+      </a>
+      <ul class="dropdown-menu me-0" style="left: -100px; width: 100px">
+        <li id="emailUserMenu" class="text-light text-end p-2 small">
+          ${ls.getUsuario().email}
+        </li>
+        <li id="rolUserMenu" class="text-light text-end pe-2 small fst-italic">
+          ${ls.getUsuario().rol}
+        </li>
+        <li><hr class="dropdown-divider" /></li>
+        <li>
+          <a 
+            class="dropdown-item" 
+            href="#"
+            data-bs-toggle="modal"
+            data-bs-target="#modalEditarPerfil"
+            >
+            Mi perfil
+          </a>
+        </li>
+        <li><hr class="dropdown-divider" /></li>
+        <li><a class="dropdown-item cerrarSesion" href="#">Cerrar sesión</a></li>
+      </ul>
+    </li>
+  </ul>
+  `
   ),
   templateDesarrollador: (
     // html
     `
-    <ul class="navbar-nav ms-auto me-2 mb-2 mb-lg-0">
-        <li class="nav-item dropdown">
-        <a
-            class="nav-link dropdown-toggle"
-            href="#"
-            role="button"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-        >
-            <img src="images/usuario.png" alt="" width="25" />
-        </a>
-        <ul class="dropdown-menu me-0" style="left: -100px; width: 100px">
-            <li class="text-light text-end p-2 small">
-            ${ls.getUsuario().email}
-            </li>
-            <li class="text-light text-end pe-2 small fst-italic">
-            ${ls.getUsuario().rol}
-            </li>
-            <li><hr class="dropdown-divider" /></li>
-            <li><a class="dropdown-item" href="#">Mi perfil</a></li>
-            <li><hr class="dropdown-divider" /></li>
-            <li><a class="dropdown-item cerrarSesion" href="#">Cerrar sesión</a></li>
-        </ul>
+  <ul class="navbar-nav ms-auto me-2 mb-2 mb-lg-0">
+    <li class="nav-item dropdown">
+    <a
+    class="nav-link dropdown-toggle"
+    href="#"
+    role="button"
+    data-bs-toggle="dropdown"
+    aria-expanded="false"
+    >
+      <img id="avatarMenu" src="images/avatar.svg" alt="" width="25" />
+    </a>
+      <ul class="dropdown-menu me-0" style="left: -100px; width: 100px">
+        <li id="emailUserMenu" class="text-light text-end p-2 small">
+          ${ls.getUsuario().email}
         </li>
-    </ul>
-    `
+        <li id="rolUserMenu" class="text-light text-end p-2 small">
+          ${ls.getUsuario().rol}
+        </li>
+        <li><hr class="dropdown-divider" /></li>
+        <li>
+          <a 
+            class="dropdown-item" 
+            href="#"
+            data-bs-toggle="modal"     data-bs-target="#modalEditarPerfil"
+            >
+            Mi perfil
+          </a>
+        </li>
+        <li><hr class="dropdown-divider" /></li>
+        <li><a class="dropdown-item cerrarSesion" href="#">Cerrar sesión</a></li>
+      </ul>
+    </li>
+  </ul>
+  
+  `
   ),
   templateAdmin: (
     // html
     `
-    <ul class="navbar-nav ms-auto me-2 mb-2 mb-lg-0">
-        <li class="nav-item dropdown">
-        <a
-            class="nav-link dropdown-toggle"
-            href="#"
-            role="button"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-        >
-            <img src="images/usuario.png" alt="" width="25" />
-        </a>
-        <ul class="dropdown-menu me-0" style="left: -100px; width: 100px">
-            <li class="text-light text-end p-2 small">
-            ${ls.getUsuario().email}
-            </li>
-            <li class="text-light text-end pe-2 small fst-italic">
-            ${ls.getUsuario().rol}
-            </li>
-            <li><hr class="dropdown-divider" /></li>
-            <li><a class="dropdown-item" href="#">Mi perfil</a></li>
-            <li><hr class="dropdown-divider" /></li>
-            <li><a class="dropdown-item cerrarSesion" href="#">Cerrar sesión</a></li>
-        </ul>
+  <ul class="navbar-nav ms-auto me-2 mb-2 mb-lg-0">
+    <li class="nav-item dropdown">
+      <a
+        class="nav-link dropdown-toggle"
+        href="#"
+        role="button"
+        data-bs-toggle="dropdown"
+        aria-expanded="false"
+      >
+        <img id="avatarMenu" src="images/avatar.svg" alt="" width="25" />
+      </a>
+      <ul class="dropdown-menu me-0" style="left: -100px; width: 100px">
+        <li id="emailUserMenu" class="text-light text-end p-2 small">
+          ${ls.getUsuario().email}
         </li>
-    </ul>
-    `
+        <li id="rolUserMenu" class="text-light text-end p-2 small">
+          ${ls.getUsuario().rol}
+        </li>
+        <li><hr class="dropdown-divider" /></li>
+        <li>
+          <a 
+            class="dropdown-item" 
+            href="#"
+            data-bs-toggle="modal"     data-bs-target="#modalEditarPerfil"
+            >
+            Mi perfil
+          </a>
+        </li>
+        <li><hr class="dropdown-divider" /></li>
+        <li><a class="dropdown-item cerrarSesion" href="#">Cerrar sesión</a></li>
+      </ul>
+    </li>
+  </ul>
+  `
   )
 };
 const header = {
@@ -11838,14 +11858,14 @@ const enrutador = {
   rutas: {
     home: __vitePreload(() => import("./homeVista-uui6C7j_.js"), true ? __vite__mapDeps([]) : void 0, import.meta.url),
     // Usuarios
-    admin: __vitePreload(() => import("./adminVista-_QAD1lAE.js"), true ? __vite__mapDeps([0,1]) : void 0, import.meta.url),
-    registro: __vitePreload(() => import("./registroVista-F6FE0RZL.js"), true ? __vite__mapDeps([2,3]) : void 0, import.meta.url),
-    login: __vitePreload(() => import("./loginVista-AIv9_lbb.js"), true ? __vite__mapDeps([4,3]) : void 0, import.meta.url),
+    admin: __vitePreload(() => import("./adminVista-P0I_U5WL.js"), true ? __vite__mapDeps([0,1]) : void 0, import.meta.url),
+    registro: __vitePreload(() => import("./registroVista-MGb7HoxP.js"), true ? __vite__mapDeps([]) : void 0, import.meta.url),
+    login: __vitePreload(() => import("./loginVista-gdMvG9EE.js"), true ? __vite__mapDeps([2,1]) : void 0, import.meta.url),
     // Proyectos
-    proyectos: __vitePreload(() => import("./proyectosVista-7UqMQXBg.js"), true ? __vite__mapDeps([5,6]) : void 0, import.meta.url),
-    proyectoNuevo: __vitePreload(() => import("./proyectoNuevoVista-AuDHkAf2.js"), true ? __vite__mapDeps([7,6]) : void 0, import.meta.url),
-    proyectoEditar: __vitePreload(() => import("./proyectoEditarVista-Ld42uLkV.js"), true ? __vite__mapDeps([8,1,6]) : void 0, import.meta.url),
-    proyectoDetalle: __vitePreload(() => import("./proyectoDetalleVista-6xW9ZKfe.js"), true ? __vite__mapDeps([9,1]) : void 0, import.meta.url),
+    proyectos: __vitePreload(() => import("./proyectosVista-1SHitnht.js"), true ? __vite__mapDeps([3,1]) : void 0, import.meta.url),
+    proyectoNuevo: __vitePreload(() => import("./proyectoNuevoVista-a0vGPqAG.js"), true ? __vite__mapDeps([]) : void 0, import.meta.url),
+    proyectoEditar: __vitePreload(() => import("./proyectoEditarVista-FrYC2BWq.js"), true ? __vite__mapDeps([4,1]) : void 0, import.meta.url),
+    proyectoDetalle: __vitePreload(() => import("./proyectoDetalleVista-gcijJGDA.js"), true ? __vite__mapDeps([5,1]) : void 0, import.meta.url),
     404: __vitePreload(() => import("./404-ILKJu48r.js"), true ? __vite__mapDeps([]) : void 0, import.meta.url)
   },
   // Método que obtiene la ruta del navegador
@@ -11893,7 +11913,7 @@ export {
 };
 function __vite__mapDeps(indexes) {
   if (!__vite__mapDeps.viteFileDeps) {
-    __vite__mapDeps.viteFileDeps = ["./adminVista-_QAD1lAE.js","./datosPrueba-iQ-B72zm.js","./registroVista-F6FE0RZL.js","./perfil-E80WnpDx.js","./loginVista-AIv9_lbb.js","./proyectosVista-7UqMQXBg.js","./proyecto-L_6dV-oP.js","./proyectoNuevoVista-AuDHkAf2.js","./proyectoEditarVista-Ld42uLkV.js","./proyectoDetalleVista-6xW9ZKfe.js"]
+    __vite__mapDeps.viteFileDeps = ["./adminVista-P0I_U5WL.js","./datosPrueba-Jl9Tubsq.js","./loginVista-gdMvG9EE.js","./proyectosVista-1SHitnht.js","./proyectoEditarVista-FrYC2BWq.js","./proyectoDetalleVista-gcijJGDA.js"]
   }
   return indexes.map((i) => __vite__mapDeps.viteFileDeps[i])
 }

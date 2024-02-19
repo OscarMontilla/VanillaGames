@@ -1,6 +1,4 @@
-import { p as proyectos } from "./datosPrueba-iQ-B72zm.js";
-import { P as Proyecto } from "./proyecto-L_6dV-oP.js";
-import { U as User } from "./main-7dOz0JYB.js";
+import { p as proyectos } from "./datosPrueba-Jl9Tubsq.js";
 const proyectoEditarVista = {
   template: (
     // html
@@ -113,7 +111,7 @@ const proyectoEditarVista = {
   `
   ),
   script: (id) => {
-    const proyectoArray = proyectos.filter((p) => p.id === id);
+    const proyectoArray = proyectos.filter((p) => p.id == id);
     const proyecto = proyectoArray[0];
     const fecha = proyecto.created_at;
     const fechaCorta = fecha.split("T")[0];
@@ -144,28 +142,17 @@ const proyectoEditarVista = {
         enviaDatos();
       }
     });
-    async function enviaDatos() {
-      try {
-        const user = await User.getUser();
-        const userId = user.id;
-        const proyectoEditado = {
-          // Asignación de valores a las propiedades del proyecto
-          imagen: document.querySelector("#urlImagen").value,
-          nombre: document.querySelector("#nombreJuego").value,
-          descripcion: document.querySelector("#descripcion").value,
-          created_at: document.querySelector("#fecha").value,
-          estado: document.querySelector("#estado").value,
-          enlace: document.querySelector("#enlace").value,
-          repositorio: document.querySelector("#repositorio").value,
-          user_id: userId
-        };
-        const proyectoCreado = await Proyecto.create(proyectoEditado);
-        alert("Proyecto creado con éxito", proyectoCreado.nombre);
-        console.log("Enviando a la base de datos ", proyectoCreado);
-        window.location = "#/proyectos";
-      } catch (error) {
-        alert("Error al crear el proyecto", error);
-      }
+    function enviaDatos() {
+      const proyectoEditado = {
+        imagen: document.querySelector("#urlImagen").value,
+        nombre: document.querySelector("#nombreJuego").value,
+        descripcion: document.querySelector("#descripcion").value,
+        estado: document.querySelector("#estado").value,
+        enlace: document.querySelector("#enlace").value,
+        repositorio: document.querySelector("#repositorio").value
+      };
+      alert(`Enviando a la base de datos el objeto con id = ${proyecto.id}`);
+      console.log(`Enviando a la base de datos el objeto con id = ${proyecto.id}`, proyectoEditado);
     }
   }
 };

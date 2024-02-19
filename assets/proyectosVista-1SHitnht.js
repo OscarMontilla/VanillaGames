@@ -1,5 +1,5 @@
-import { P as Proyecto } from "./proyecto-L_6dV-oP.js";
-import { U as User, l as ls } from "./main-7dOz0JYB.js";
+import { p as proyectos } from "./datosPrueba-Jl9Tubsq.js";
+import { l as ls } from "./main-xqChGdwP.js";
 const proyectosVista = {
   template: (
     // html
@@ -33,13 +33,13 @@ const proyectosVista = {
     <div class="row">
       <div class="col-12 col-sm-4 mb-3">
       <!-- Boton para subir proyectos -->
-        <a href="#/proyectoNuevo" class="btn btn-primary w-100 router-link">Subir proyecto</a>
+        <a id="botonSubirProyecto" href="#/proyectoNuevo" class="btn btn-primary w-100 router-link">Subir proyecto</a>
       </div>
       <div class="d-flex col-12 col-sm-8 mb-3">
         <!-- Botones para alternar entre vista de tabla o de tarjetas -->
-        <button class="btn btn-secondary me-2 bi bi-grid-3x3-gap vistaTabla">
+        <button class="vistaTabla btn btn-secondary me-2 bi bi-list">
         </button>
-        <button class="btn btn-secondary me-2 bi bi-list vistaTarjetas">
+        <button class="vistaTarjetas btn btn-secondary me-2 bi bi-grid-3x3-gap ">
         </button>
         <!-- Buscador -->
         <div class="input-group flex-nowrap">
@@ -95,7 +95,7 @@ const proyectosVista = {
         </thead>
         <tbody id="tbodyProyectos">
           <!-- Aqui van los datos generados por la lógica -->
-          <p>No tienes proyectos</p>
+          
         </tbody>
       </table>
     </div>
@@ -103,39 +103,24 @@ const proyectosVista = {
     <!-- Panel de tarjetas -->
     <div id="tabTarjetas" class="d-xl-none row">
       <!-- Aqui van los datos generados por la lógica -->
-      <p>No tienes proyectos</p>
+     
     </div>
   </div>
 </div>
   `
   ),
-  script: async () => {
-    const datosBd = await Proyecto.getAll();
-    console.log("datos", datosBd);
-    const user = await User.getUser();
-    const userId = user.id;
-    console.log("userId", userId);
-    const datos = datosBd.map((dato) => {
-      const fecha = dato.created_at;
-      const nuevaFecha = fecha.split("T")[0];
-      const fechaFormateada = `${nuevaFecha.split("-")[2]}/${nuevaFecha.split("-")[1]}/${nuevaFecha.split("-")[0]}`;
-      const datoFormateado = {
-        ...dato,
-        created_at: fechaFormateada
-      };
-      return datoFormateado;
-    });
+  script: () => {
+    const datos = proyectos;
     let misProyectos = false;
     const usuario = ls.getUsuario();
-    console.log(usuario);
     const pintaTabla = (proyectosFiltrados) => {
       if (misProyectos) {
-        proyectosFiltrados = proyectosFiltrados.filter((proyecto) => proyecto.user_id === userId);
+        proyectosFiltrados = datos.filter((proyecto) => proyecto.user_id === usuario.user_id);
       }
       let tbodyProyectos = "";
       proyectosFiltrados.forEach((proyecto) => {
         let botones = "";
-        if (userId === proyecto.user_id) {
+        if (usuario.user_id === proyecto.user_id) {
           botones = `
           <td><a
             data-id = ${proyecto.id}
@@ -156,7 +141,7 @@ const proyectosVista = {
                 class="verDetalle"
                 data-id="${proyecto.id}"
                 width="200px" 
-                src=${proyecto.imagen || "images/imagenVacia.png"} 
+                src=${proyecto.imagen || "../images/juego.jpg"} 
                 alt="imagen proyecto" />
             </div>
           </td>
@@ -178,8 +163,8 @@ const proyectosVista = {
     };
     const pintaTarjetas = (proyectosFiltrados) => {
       if (misProyectos) {
-        proyectosFiltrados = proyectosFiltrados.filter((proyecto) => proyecto.user_id === userId);
-        console.log("proyectosUserId", proyectosFiltrados);
+        proyectosFiltrados = datos.filter((proyecto) => proyecto.user_id === usuario.user_id);
+        console.log(proyectos);
       }
       let tarjetasProyectos = "";
       proyectosFiltrados.forEach((proyecto) => {
