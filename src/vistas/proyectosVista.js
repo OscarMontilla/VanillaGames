@@ -1,6 +1,6 @@
-import { Proyecto } from '../bd/proyecto'
-import { User } from '../bd/user'
+import { proyectos } from '../bd/datosPrueba'
 import { ls } from '../componentes/funciones'
+import { Proyecto } from '../bd/proyecto'
 
 export default {
   template: // html
@@ -34,13 +34,13 @@ export default {
     <div class="row">
       <div class="col-12 col-sm-4 mb-3">
       <!-- Boton para subir proyectos -->
-        <a href="#/proyectoNuevo" class="btn btn-primary w-100 router-link">Subir proyecto</a>
+        <a id="botonSubirProyecto" href="#/proyectoNuevo" class="btn btn-primary w-100 router-link">Subir proyecto</a>
       </div>
       <div class="d-flex col-12 col-sm-8 mb-3">
         <!-- Botones para alternar entre vista de tabla o de tarjetas -->
-        <button class="btn btn-secondary me-2 bi bi-grid-3x3-gap vistaTabla">
+        <button class="vistaTabla btn btn-secondary me-2 bi bi-list">
         </button>
-        <button class="btn btn-secondary me-2 bi bi-list vistaTarjetas">
+        <button class="vistaTarjetas btn btn-secondary me-2 bi bi-grid-3x3-gap ">
         </button>
         <!-- Buscador -->
         <div class="input-group flex-nowrap">
@@ -96,7 +96,7 @@ export default {
         </thead>
         <tbody id="tbodyProyectos">
           <!-- Aqui van los datos generados por la lógica -->
-          <p>No tienes proyectos</p>
+          
         </tbody>
       </table>
     </div>
@@ -104,35 +104,19 @@ export default {
     <!-- Panel de tarjetas -->
     <div id="tabTarjetas" class="d-xl-none row">
       <!-- Aqui van los datos generados por la lógica -->
-      <p>No tienes proyectos</p>
+     
     </div>
   </div>
 </div>
   `,
-  script: async () => {
+  script: () => {
     // **** AQUI DEBEMOS CAPTURAR LOS PROYECTOS DE LA BASE DE DATOS ****
 
     // Capturamos proyectos y guardamos en variable para poder ser filtrada
-    const datosBd = await Proyecto.getAll()
-    console.log('datos', datosBd)
-    const user = await User.getUser()
-    const userId = user.id
-    console.log('userId', userId)
-    const datos = datosBd.map((dato) => {
-      const fecha = dato.created_at
-      const nuevaFecha = fecha.split('T')[0]
-      const fechaFormateada = `${nuevaFecha.split('-')[2]}/${nuevaFecha.split('-')[1]}/${nuevaFecha.split('-')[0]}`
-      const datoFormateado = {
-        ...dato,
-        created_at: fechaFormateada
-      }
-      return datoFormateado
-    })
-
+    const datos = proyectos
     let misProyectos = false
     // Capturamos los datos del usuario logueado
     const usuario = ls.getUsuario()
-    console.log(usuario)
 
     // ####################################################################
     // *** FUNCIÓN PARA PINTAR TABLA A PARTIR DE ARRAY datos ***
@@ -141,7 +125,7 @@ export default {
     const pintaTabla = (proyectosFiltrados) => {
       // Si tenemos seleccionada la opción 'mis proyectos' filtramos los proyectos por user_id
       if (misProyectos) {
-        proyectosFiltrados = proyectosFiltrados.filter((proyecto) => proyecto.user_id === userId)
+        proyectosFiltrados = datos.filter((proyecto) => proyecto.user_id === usuario.user_id)
       }
 
       let tbodyProyectos = ''
@@ -149,9 +133,9 @@ export default {
       proyectosFiltrados.forEach(proyecto => {
         // Generamos botones dependiendo de si el proyecto ha sido creado por el usuario logueado
         let botones = ''
-        if (userId === proyecto.user_id) {
+        if (usuario.user_id === proyecto.user_id) {
           botones =
-            `
+          `
           <td><a
             data-id = ${proyecto.id}
             class="botonAdmin botonEditar d-none d-sm-inline btn btn-sm btn-outline-primary bi bi-pencil"
@@ -164,7 +148,7 @@ export default {
         }
         // sumamos un tr con los datos del proyecto de la iteración
         tbodyProyectos += // html
-          `
+        `
         <tr data-id="${proyecto.id}" class="verDetalle">
           <td>
             <div class="containerImagen">
@@ -172,7 +156,7 @@ export default {
                 class="verDetalle"
                 data-id="${proyecto.id}"
                 width="200px" 
-                src=${proyecto.imagen || 'images/imagenVacia.png'} 
+                src=${proyecto.imagen || '../images/juego.jpg'} 
                 alt="imagen proyecto" />
             </div>
           </td>
@@ -201,8 +185,8 @@ export default {
     const pintaTarjetas = (proyectosFiltrados) => {
       // Si tenemos seleccionada la opción 'mis proyectos' filtramos los proyectos por user_id
       if (misProyectos) {
-        proyectosFiltrados = proyectosFiltrados.filter((proyecto) => proyecto.user_id === userId)
-        console.log('proyectosUserId', proyectosFiltrados)
+        proyectosFiltrados = datos.filter((proyecto) => proyecto.user_id === usuario.user_id)
+        console.log(proyectos)
       }
       let tarjetasProyectos = ''
       // Iteramos para cada proyecto del array 'proyectosFiltrados'
@@ -211,7 +195,7 @@ export default {
         let botones = ''
         if (usuario.user_id === proyecto.user_id) {
           botones =
-            `
+          `
           <a
             data-id = ${proyecto.id}
             class="botonAdmin botonEditar d-none d-sm-inline btn btn-sm btn-outline-primary bi bi-pencil"
@@ -224,7 +208,7 @@ export default {
         }
         // sumamos un tr con los datos del proyecto
         tarjetasProyectos += // html
-          `
+        `
         <!-- tarjeta  -->
         <div class="col-12 col-lg-6">
           <div class="card mb-3">
@@ -394,6 +378,7 @@ export default {
           window.location = `#/proyectoEditar/${id}`
         } else if (boton.classList.contains('botonBorrar')) {
           // Si se trata de borrar
+          // eslint-disable-next-line no-undef
           alert('Borrar proyecto ' + id)
 
           // *** AQUÍ VA LA FUNCIÓN QUE BORRA DE LA BASE DE DATOS EL PROYECTO CORRESPONDIENTE AL ID ***

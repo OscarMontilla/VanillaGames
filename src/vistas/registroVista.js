@@ -1,41 +1,37 @@
 /* eslint-disable no-undef */
-import { User } from '../bd/user'
 import { Perfil } from '../bd/perfil'
+import { User } from '../bd/user'
 
 export default {
   template: // html
-    `
-    <div class="container mt-5">
-      <div class="row justify-content-center">
-        <div class="col-md-6 col-lg-4">
-          <h1 class="text-center mb-4 fw-light">Registro</h1>
-          <div class="card rounded-0">
-            <div class="card-body">
-              <form id="formRegistro" action="proyecto.html">
-                <div class="mb-3">
-                  <label for="nombre" class="form-label">Nombre:</label>
-                  <input type="text" class="form-control rounded-0" id="nombre">
-                </div>
-                <div class="mb-3">
-                  <label for="apellidos" class="form-label">Apellidos:</label>
-                  <input type="text" class="form-control rounded-0" id="apellidos">
-                </div>
-                <div class="mb-3">
-                  <label for="email" class="form-label">Email:</label>
-                  <input type="email" class="form-control rounded-0" id="email">
-                </div>
-                <div class="mb-3">
-                  <label for="password" class="form-label">Contraseña:</label>
-                  <input type="password" class="form-control rounded-0" id="password">
-                </div>
-                <button type="submit" class="btn btn-primary rounded-0 w-100">Enviar</button>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    `,
+  `
+  <div class="container">
+  <h1 class="mt-5 text-center">Registro</h1>
+  <div class="m-5 mx-auto" style="max-width: 400px">
+    <!-- Formulario de registro -->
+    <form id="formularioRegistro" class="form border shadow-sm p-3" novalidate>
+      <!-- Nombre -->
+      <label for="nombre" class="form-label">Nombre:</label>
+      <input required id="nombre" type="text" class="form-control" />
+
+      <!-- Apellidos -->
+      <label for="apellidos" class="form-label">Apellidos:</label>
+      <input id="apellidos" type="text" class="form-control" />
+
+      <!-- Email -->
+      <label for="email" class="form-label">Email:</label>
+      <input required id="email" type="email" class="form-control" />
+
+      <!-- Contraseña -->
+      <label for="pass" class="form-label mt-3">Contraseña:</label>
+      <input required id="pass" type="password" class="form-control" />
+
+      <!-- Botón enviar -->
+      <input type="submit" class="btn btn-primary w-100 mt-3" value="Enviar" />
+    </form>
+  </div>
+</div>
+  `,
   script: () => {
     console.log('vista registro cargada')
     // Validación bootstrap
@@ -55,8 +51,8 @@ export default {
         try {
           // Capturamos datos del formulario para el registro
           const usuario = {
-            email: formulario.email.value,
-            password: formulario.password.value
+            email: document.getElementById('email').value,
+            password: document.getElementById('pass').value
           }
           console.log('Formulario valido. Datos formulario: ', usuario)
           const user = await User.create(usuario)
@@ -66,8 +62,8 @@ export default {
           const perfil = {
             ...usuario,
             user_id: user.id,
-            nombre: formulario.nombre.value,
-            apellidos: formulario.apellidos.value
+            nombre: document.getElementById('nombre').value,
+            apellidos: document.getElementById('apellidos').value
           }
           // Insertamos perfil en la base de datos
           Perfil.create(perfil)

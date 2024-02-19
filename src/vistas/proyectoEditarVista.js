@@ -1,6 +1,4 @@
 import { proyectos } from '../bd/datosPrueba'
-import { Proyecto } from '../bd/proyecto'
-import { User } from '../bd/user'
 
 export default {
   template: // html
@@ -113,7 +111,8 @@ export default {
   `,
   script: (id) => {
     // Simulamos la consulta a un proyecto por id
-    const proyectoArray = proyectos.filter(p => p.id === id)
+    // eslint-disable-next-line eqeqeq
+    const proyectoArray = proyectos.filter(p => p.id == id)
     const proyecto = proyectoArray[0]
 
     // Transformamos la fecha en un formato yy-mm-dd
@@ -165,29 +164,18 @@ export default {
     })
 
     // Función para enviar datos a la base de datos
-    async function enviaDatos () {
-      try {
-        const user = await User.getUser()
-        const userId = user.id
-
-        const proyectoEditado = {
-          // Asignación de valores a las propiedades del proyecto
-          imagen: document.querySelector('#urlImagen').value,
-          nombre: document.querySelector('#nombreJuego').value,
-          descripcion: document.querySelector('#descripcion').value,
-          created_at: document.querySelector('#fecha').value,
-          estado: document.querySelector('#estado').value,
-          enlace: document.querySelector('#enlace').value,
-          repositorio: document.querySelector('#repositorio').value,
-          user_id: userId
-        }
-        const proyectoCreado = await Proyecto.create(proyectoEditado)
-        alert('Proyecto creado con éxito', proyectoCreado.nombre)
-        console.log('Enviando a la base de datos ', proyectoCreado)
-        window.location = '#/proyectos'
-      } catch (error) {
-        alert('Error al crear el proyecto', error)
+    function enviaDatos () {
+      const proyectoEditado = {
+        imagen: document.querySelector('#urlImagen').value,
+        nombre: document.querySelector('#nombreJuego').value,
+        descripcion: document.querySelector('#descripcion').value,
+        estado: document.querySelector('#estado').value,
+        enlace: document.querySelector('#enlace').value,
+        repositorio: document.querySelector('#repositorio').value
       }
+      // eslint-disable-next-line no-undef
+      alert(`Enviando a la base de datos el objeto con id = ${proyecto.id}`)
+      console.log(`Enviando a la base de datos el objeto con id = ${proyecto.id}`, proyectoEditado)
     }
   }
 }

@@ -1,3 +1,4 @@
+// Importamos la conexión a la base de datos desde './supabase.js'
 import { supabase } from './supabase.js'
 
 // Definición de la clase User
@@ -62,14 +63,17 @@ export class User {
   }
 
   // Método para actualizar datos del usuario (no está claro cómo se utiliza actualmente)
-  async update (nuevosDatos) {
+  static async update (nuevosDatos) {
     const { data, error } = await supabase.auth.updateUser({
-      email: this.email,
-      password: this.password
+      email: nuevosDatos.email
+      // password: nuevosDatos.password,
+      // data: { hello: 'world' }
     })
 
     if (error) {
       throw new Error(error.message)
     }
+
+    return true
   }
 }
