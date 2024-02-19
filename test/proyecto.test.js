@@ -2,7 +2,7 @@
 import { expect } from 'chai'
 
 // cargamos libreria de supabase
-import { supabase } from './src/bd/supabase'
+import { supabase } from '../src/bd/supabase'
 
 // Cargamos la clase Proyecto
 import { Proyecto } from './src/bd/proyecto'
