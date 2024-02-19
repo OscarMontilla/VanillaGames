@@ -1,4 +1,4 @@
-import { s as supabase, U as User } from "./main-xqChGdwP.js";
+import { s as supabase, U as User } from "./main-mMGBbz_2.js";
 class Perfil {
   constructor({
     id = null,
