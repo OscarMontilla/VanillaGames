@@ -3,6 +3,8 @@ import './scss/styles.scss'
 
 // Import all of Bootstrap's JS
 import 'bootstrap'
+import 'bootstrap-icons/font/bootstrap-icons.css';
+
 
 import { header } from './componentes/header'
 import { footer } from './componentes/footer'
